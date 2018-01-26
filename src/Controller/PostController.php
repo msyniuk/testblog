@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 
@@ -41,9 +42,27 @@ class PostController extends Controller
     /**
      * @Route("/add", name="add_post")
      */
-    public function addPost()
+    public function addPost(Request $request, EntityManagerInterface $em)
     {
-        return $this->render('post/add_post.html.twig');
+
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$feedback = $form->getData(); если форма не связана с сущностью
+            $em->persist($post);
+            $em->flush();
+            $id = $post->getId();
+            $this->addFlash('info', 'Пост добавлен!');
+
+            return $this->redirectToRoute('post_show',
+                ['id' => $id]);
+        }
+
+        return $this->render('post/add_post.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
