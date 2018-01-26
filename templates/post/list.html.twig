@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title  %}
+    Все посты
+{% endblock title %}
+{% block body %}
+    <div class="container-fluid">
+        <h2><u>Все посты</u></h2>
+        {% for post in posts %}
+            <h3><a href="{{ path('post_show',  {'id': post.id}) }}">{{ post.topic }}</a></h3>
+            Дата публикации: {{ post.datepost|date("m-d-Y") }}
+            <hr>
+            {{ post.content|raw }}
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock body %}
+

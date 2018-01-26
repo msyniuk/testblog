@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title  %}
+    Пост
+{% endblock title %}
+{% block body %}
+    <div class="container-fluid">
+        <h3>{{ post.topic }}</h3>
+        Дата публикации: {{ post.datepost|date("m-d-Y") }}
+        <hr>
+        {{ post.content|raw }}
+        <hr>
+        <a href="{{ path('homepage') }}">На главную</a>&nbsp;|&nbsp;<a href="">Редактировать</a>
+    </div>
+{% endblock body %}

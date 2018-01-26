@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @ORM\Entity
@@ -42,7 +43,9 @@ class Post
      */
     public function __construct()
     {
-        $this->date_post = date();
+        $this->date_post = new \DateTime();
+        $this->topic = '';
+        $this->content = '';
     }
 
 
