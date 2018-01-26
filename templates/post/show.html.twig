@@ -9,6 +9,6 @@
         <hr>
         {{ post.content|raw }}
         <hr>
-        <a href="{{ path('homepage') }}">На главную</a>&nbsp;|&nbsp;<a href="">Редактировать</a>
+        <a href="{{ path('homepage') }}">На главную</a>&nbsp;|&nbsp;<a href="{{ path('edit_post',  {'id': post.id}) }}">Редактировать</a>
     </div>
 {% endblock body %}

@@ -47,7 +47,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/edit", name="edit_post")
+     * @Route("/edit/{id}", name="edit_post")
      */
     public function editPost()
     {
