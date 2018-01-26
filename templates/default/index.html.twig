@@ -9,7 +9,7 @@
             <h3><a href="{{ path('post_show',  {'id': post.id}) }}">{{ post.topic }}</a></h3>
             Дата публикации: {{ post.datepost|date("m-d-Y") }}
             <hr>
-            {{ post.content|raw }} <a href="{{ path('post_show',  {'id': post.id}) }}">Читать далее</a>
+            {{ post.shorts|raw }} <a href="{{ path('post_show',  {'id': post.id}) }}">Читать далее</a>
             <hr>
         {% endfor %}
     </div>

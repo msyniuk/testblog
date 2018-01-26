@@ -38,6 +38,7 @@ class Post
      */
     private $content;
 
+
     /**
      * Post constructor.
      */
@@ -119,6 +120,12 @@ class Post
     {
         $this->content = $content;
         return $this;
+    }
+
+    public function getShorts(): ?string
+    {
+        $paragraphs = explode("\n", $this->content, 2);
+        return reset($paragraphs);
     }
 
 

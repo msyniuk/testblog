@@ -4,6 +4,13 @@
 {% endblock title %}
 {% block body %}
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                {% for message in app.flashes('info') %}
+                    <p class="bg-success">{{ message }}</p>
+                {% endfor %}
+            </div>
+        </div>
         <h3>{{ post.topic }}</h3>
         Дата публикации: {{ post.datepost|date("m-d-Y") }}
         <hr>

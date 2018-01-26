@@ -26,7 +26,9 @@ class Posts
     public function getLastPosts()
     {
         $repo = $this->em->getRepository(Post::class);
+        //return var_dump($repo);
 
         return $repo->findBy([],['date_post' => 'DESC'], 3);
+
     }
 }

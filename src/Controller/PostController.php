@@ -68,9 +68,27 @@ class PostController extends Controller
     /**
      * @Route("/edit/{id}", name="edit_post")
      */
-    public function editPost()
+    public function editPost(Post $post, Request $request, EntityManagerInterface $em)
     {
-        return $this->render('post/edit_post.html.twig');
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$em->persist($post);
+            $em->flush();
+            $id = $post->getId();
+            $this->addFlash('info', 'Изменения сохранены!');
+
+            return $this->redirectToRoute('post_show',
+                ['id' => $id]);
+        }
+
+        return $this->render('post/edit_post.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post,
+        ]);
+
     }
 
 }
