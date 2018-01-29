@@ -4,14 +4,48 @@
 {% endblock title %}
 {% block body %}
     <div class="container-fluid">
+        <div class="col-xs-12 col-md-9">
         <h2><u>Все посты</u></h2>
+            <div class="row">
+                <div class="col-xs-12 col-md-9">
+                    {% for message in app.flashes('warning') %}
+                        <p class="bg-success">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th class="text-center">Дата</th>
+                <th class="text-center">Заголовок</th>
+                <th class="text-center">Содержимое</th>
+                <th class="text-center" colspan="2">Операции</th>
+            </tr>
         {% for post in posts %}
-            <h3><a href="{{ path('post_show',  {'id': post.id}) }}">{{ post.topic }}</a></h3>
+            <tr>
+                <td>
+                    {{ post.datepost|date("m-d-Y") }}
+                </td>
+                <td>
+                    <a href="{{ path('post_show',  {'id': post.id}) }}">{{ post.topic }}</a>
+                </td>
+                <td>
+                    {{ post.content | slice(0, 100) ~ '.....' }}
+                </td>
+                <td class="text-center">
+                    <a href="{{ path('edit_post',  {'id': post.id}) }}" title="Редактировать"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                </td>
+                <td class="text-center">
+                    <a href="{{ path('del_post',  {'id': post.id}) }}" title="Удалить"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+                </td>
+            </tr>
+            {#<h3><a href="{{ path('post_show',  {'id': post.id}) }}">{{ post.topic }}</a></h3>
             Дата публикации: {{ post.datepost|date("m-d-Y") }}
             <hr>
             {{ post.content|raw }}
-            <hr>
+                <hr>#}
         {% endfor %}
+        </table>
+        </div>
     </div>
 {% endblock body %}
 

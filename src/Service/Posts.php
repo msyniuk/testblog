@@ -31,4 +31,12 @@ class Posts
         return $repo->findBy([],['date_post' => 'DESC'], 3);
 
     }
+
+    public function removePost(Post $post)
+    {
+        $this->em->remove($post);
+
+        $this->em->flush();
+    }
+
 }

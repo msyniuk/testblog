@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Service\Posts;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 
 
@@ -74,6 +75,7 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             //$em->persist($post);
             $em->flush();
@@ -88,6 +90,17 @@ class PostController extends Controller
             'form' => $form->createView(),
             'post' => $post,
         ]);
+
+    }
+
+    /**
+     * @Route("/del/{id}", name="del_post")
+     */
+    public function deletePost(Post $post, Posts $posts)
+    {
+        $posts->removePost($post);
+        $this->addFlash('warning', 'Пост уcпешно удален!');
+        return $this->redirectToRoute('all_posts');
 
     }
 
