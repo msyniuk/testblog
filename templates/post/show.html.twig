@@ -11,11 +11,38 @@
                 {% endfor %}
             </div>
         </div>
-        <h3>{{ post.topic }}</h3>
-        Дата публикации: {{ post.datepost|date("m-d-Y") }}
-        <hr>
-        {{ post.content|raw }}
-        <hr>
-        <a href="{{ path('homepage') }}">На главную</a>&nbsp;|&nbsp;<a href="{{ path('edit_post',  {'id': post.id}) }}">Редактировать</a>
+        <div class="row">
+            <div class="col-xs-12 col-md-9">
+                <h3>{{ post.topic }}</h3>
+                Дата публикации: {{ post.datepost|date("m-d-Y") }}
+                <hr>
+                {{ post.content|raw }}
+                <hr>
+                <a href="{{ path('homepage') }}">На главную</a>&nbsp;|&nbsp;<a href="{{ path('edit_post',  {'id': post.id}) }}">Редактировать</a>
+                <hr>
+            </div>
+        </div>
+            <h4><u>Комментарии:</u></h4>
+        <table class="table table-">
+        {% for comment in comments %}
+            Дата и время: {{ comment.datecomment|date("m-d-Y H:i:s") }}
+            Автор: <u>{{ comment.author }}</u>
+            Tекст: {{ comment.text | replace({'\n': '<br>'}) | raw }}
+            <hr>
+        {% endfor %}
+        <div class="container-fluid">
+            <h4><u>Добавить комментарий:</u></h4>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <p></p>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock body %}

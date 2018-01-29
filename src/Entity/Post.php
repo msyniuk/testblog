@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -38,6 +39,12 @@ class Post
      */
     private $content;
 
+    /**
+     * @var Product[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
+     * @ORM\OrderBy({"date_comment" = "DESC"})
+     */
+    private $comments;
 
     /**
      * Post constructor.
@@ -47,6 +54,8 @@ class Post
         $this->date_post = new \DateTime();
         $this->topic = '';
         $this->content = '';
+        $this->comments = new ArrayCollection();
+
     }
 
 
@@ -128,5 +137,30 @@ class Post
         return reset($paragraphs);
     }
 
+    /**
+     * @return ArrayCollection|Product[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param ArrayCollection|Product[] $comments
+     * @return Post
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        $this->comments->add($comment);
+        $comment->setPost($this);
+
+        return $this;
+    }
 
 }

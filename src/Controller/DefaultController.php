@@ -17,7 +17,8 @@ class DefaultController extends Controller
     public function show(Posts $posts)
     {
         return $this->render('default/index.html.twig',
-            ['lastPosts' => $posts->getLastPosts()]);
+            ['lastPosts' => $posts->getLastPosts(),
+            ]);
     }
 
 }

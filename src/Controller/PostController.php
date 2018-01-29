@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\PostType;
 use App\Service\Posts;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,9 +21,31 @@ class PostController extends Controller
     /**
      * @Route("/post/{id}", name="post_show")
      */
-    public function show(Post $post)
+    public function show(Post $post, Request $request, EntityManagerInterface $em)
     {
-        return $this->render('post/show.html.twig', ['post' => $post]);
+        $comments = $post->getComments();
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post->addComment($comment);
+            $em->persist($comment);
+            $em->flush();
+            $id = $post->getId();
+            $this->addFlash('info', 'Комментарий добавлен!');
+
+            return $this->redirectToRoute('post_show',
+                ['id' => $id]);
+        }
+
+        return $this->render('post/show.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post,
+            'comments' => $comments,
+
+        ]);
+
     }
 
     /**
